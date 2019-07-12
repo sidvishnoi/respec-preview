@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>
+      ReSpec Preview: Preview documents using a specific ReSpec version
+    </title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: sans-serif;
+      }
+      form,
+      header {
+        max-width: 80ch;
+        margin: 2em auto;
+      }
+      fieldset {
+        border: none;
+        padding: 0;
+        margin: 1em 0;
+      }
+      label {
+        display: block;
+        margin-bottom: 0.2em;
+      }
+      input,
+      button {
+        padding: 1em;
+        font-size: 1.3em;
+      }
+      input {
+        width: 100%;
+        font-family: monospace;
+      }
+      button {
+        background: #1a5e9a;
+        color: #fff;
+        border: none;
+      }
+      button:hover,
+      button:focus {
+        background: #013d72;
+        cursor: pointer;
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>
+        ReSpec Preview
+      </h1>
+      <p>
+        Preview documents using a specific ReSpec version
+      </p>
+    </header>
+    <form action="">
+      <fieldset>
+        <label for="spec">Spec URL</label>
+        <input
+          type="text"
+          name="spec"
+          id="spec"
+          placeholder="https://w3c.github.io/payment-request/"
+          autofocus=""
+        />
+      </fieldset>
+      <fieldset>
+        <label for="version">ReSpec Script URL</label>
+        <input
+          type="text"
+          name="version"
+          id="version"
+          placeholder="https://unpkg.com/respec@24.23.0/builds/respec-w3c-common.js"
+          required=""
+        />
+      </fieldset>
+      <button type="submit">Preview</button>
+      <noscript>
+        <p>
+          JavaScript is required for this app to work.
+        </p></noscript
+      >
+    </form>
+    <script>
+      document.querySelector("button").disabled = true;
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("sw.js").then(() => {
+          document.querySelector("button").disabled = false;
+        });
+      } else {
+        document
+          .querySelector("form")
+          .append(
+            "Error: ServiceWorker must be available for this app to work.",
+          );
+      }
+    </script>
+  </body>
+</html>
