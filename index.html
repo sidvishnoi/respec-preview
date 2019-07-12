@@ -93,6 +93,12 @@
     </form>
     <script>
       document.querySelector("button").disabled = true;
+      const url = new URL(window.location.href);
+      const spec = url.searchParams.get("spec");
+      const version = url.searchParams.get("version");
+      if (spec) document.querySelector("#spec").value = spec;
+      if (version) document.querySelector("#version").value = version;
+
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("sw.js").then(() => {
           document.querySelector("button").disabled = false;
