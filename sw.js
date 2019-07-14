@@ -15,7 +15,9 @@ sw.addEventListener("fetch", event => {
         .then(async res => {
           // modify response 🎉🎉
           const originalHTML = await res.text();
-          const newHTML = originalHTML.replace(respecScript, version);
+          const newHTML = originalHTML
+            .replace("<head>", `<head><base href="${spec}">`)
+            .replace(respecScript, version);
           return new Response(newHTML, {
             headers: res.headers,
             status: res.status,
