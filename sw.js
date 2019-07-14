@@ -24,10 +24,8 @@ sw.addEventListener("fetch", event => {
           });
         })
         .catch(error => {
-          return new Response(
-            "Some error occured. Please try again." + error.message,
-            { status: 200 },
-          );
+          console.error(error);
+          return new Response("Error: " + error.message);
         }),
     );
   }
