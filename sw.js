@@ -39,10 +39,16 @@ function shouldMockResponse(request) {
     request.mode === "navigate" ||
     (request.method === "GET" &&
       request.headers.get("accept").includes("text/html"));
-  shouldMockResponse;
+
   if (!isNavigation) return false;
   const { spec, version } = getParams(request);
-  return version && spec;
+  try {
+    new URL(version);
+    new URL(spec);
+    return true;
+  } catch (error) {
+    return false;
+  }
 }
 
 /** @param {FetchEvent['request']} request */
