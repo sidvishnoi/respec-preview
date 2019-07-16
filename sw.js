@@ -21,10 +21,8 @@ function shouldMockResponse(request) {
       request.headers.get("accept").includes("text/html"));
 
   if (!isNavigation) return false;
-  const { spec, version } = getParams(request);
   try {
-    new URL(version);
-    new URL(spec);
+    getParams(request);
     return true;
   } catch (error) {
     return false;
@@ -35,11 +33,11 @@ function shouldMockResponse(request) {
 async function getModifiedResponse(request) {
   const { spec, version } = getParams(request);
   try {
-    const res = await fetch(new Request(spec));
+    const res = await fetch(new Request(spec.href));
     const originalHTML = await res.text();
     const modifiedHTML = originalHTML
       .replace("<head>", `<head><base href="${spec}">`)
-      .replace(respecScript, version);
+      .replace(respecScript, version.href);
     return new Response(modifiedHTML, {
       headers: res.headers,
       status: res.status,
@@ -53,7 +51,7 @@ async function getModifiedResponse(request) {
 /** @param {FetchEvent['request']} request */
 function getParams(request) {
   const url = new URL(request.url);
-  const spec = url.searchParams.get("spec");
-  const version = url.searchParams.get("version");
+  const spec = new URL(url.searchParams.get("spec"));
+  const version = new URL(url.searchParams.get("version"));
   return { spec, version };
 }
