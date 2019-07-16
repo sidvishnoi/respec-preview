@@ -9,25 +9,7 @@ sw.addEventListener("install", event => {
 
 sw.addEventListener("fetch", event => {
   if (shouldMockResponse(event.request)) {
-    const { spec, version } = getParams(event.request);
-    event.respondWith(
-      fetch(new Request(spec))
-        .then(async res => {
-          // modify response 🎉🎉
-          const originalHTML = await res.text();
-          const newHTML = originalHTML
-            .replace("<head>", `<head><base href="${spec}">`)
-            .replace(respecScript, version);
-          return new Response(newHTML, {
-            headers: res.headers,
-            status: res.status,
-          });
-        })
-        .catch(error => {
-          console.error(error);
-          return new Response("Error: " + error.message);
-        }),
-    );
+    event.respondWith(getModifiedResponse(event.request));
   }
 });
 
@@ -46,6 +28,25 @@ function shouldMockResponse(request) {
     return true;
   } catch (error) {
     return false;
+  }
+}
+
+/** @param {FetchEvent['request']} request */
+async function getModifiedResponse(request) {
+  const { spec, version } = getParams(request);
+  try {
+    const res = await fetch(new Request(spec));
+    const originalHTML = await res.text();
+    const modifiedHTML = originalHTML
+      .replace("<head>", `<head><base href="${spec}">`)
+      .replace(respecScript, version);
+    return new Response(modifiedHTML, {
+      headers: res.headers,
+      status: res.status,
+    });
+  } catch (error) {
+    console.error(error);
+    return new Response("Error: " + error.message);
   }
 }
 
