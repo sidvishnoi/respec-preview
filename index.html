@@ -13,10 +13,12 @@
       }
       body {
         margin: 0;
+        padding: 1em;
         font-family: sans-serif;
       }
       form,
-      header {
+      header,
+      footer {
         max-width: 80ch;
         margin: 2em auto;
       }
@@ -51,6 +53,10 @@
       button:disabled {
         opacity: 0.5;
         cursor: not-allowed;
+      }
+      footer {
+        text-align: right;
+        margin-top: 5em;
       }
     </style>
   </head>
@@ -91,6 +97,9 @@
         </p></noscript
       >
     </form>
+    <footer>
+      <p>Made by <a href="https://github.com/sidvishnoi">Sid Vishnoi</a> | <a href="https://github.com/sidvishnoi/respec-preview">Source Code at GitHub</a></p>
+    </footer>
     <script>
       const form = document.forms[0];
       form.submitButton.disabled = true;
