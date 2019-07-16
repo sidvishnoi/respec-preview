@@ -1,5 +1,9 @@
 // @ts-check
 const respecScript = "https://www.w3.org/Tools/respec/respec-w3c";
+const respecPreviewMarker = `<a href="https://respec-preview.netlify.com/"
+    style="position:fixed;right:0;bottom:0;border:none;padding:8px;margin:0;line-height:0;">
+    <img src="https://img.shields.io/badge/respec--preview-orange.svg">
+  </a>`;
 
 const sw = /** @type {ServiceWorkerGlobalScope} */ (self);
 
@@ -37,6 +41,7 @@ async function getModifiedResponse(request) {
     const originalHTML = await res.text();
     const modifiedHTML = originalHTML
       .replace("<head>", `<head><base href="${spec}">`)
+      .replace("</body>", `${respecPreviewMarker}</body>`)
       .replace(respecScript, version.href);
     return new Response(modifiedHTML, {
       headers: res.headers,
