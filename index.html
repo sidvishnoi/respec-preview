@@ -84,7 +84,7 @@
           required=""
         />
       </fieldset>
-      <button type="submit">Preview</button>
+      <button type="submit" name="submitButton">Preview</button>
       <noscript>
         <p>
           JavaScript is required for this app to work.
@@ -92,23 +92,40 @@
       >
     </form>
     <script>
-      document.querySelector("button").disabled = true;
-      const url = new URL(window.location.href);
-      const spec = url.searchParams.get("spec");
-      const version = url.searchParams.get("version");
-      if (spec) document.querySelector("#spec").value = spec;
-      if (version) document.querySelector("#version").value = version;
+      const form = document.forms[0];
+      form.submitButton.disabled = true;
+
+      form.addEventListener("submit", event => {
+        event.preventDefault();
+        const spec = new URL(form.spec.value);
+        const version = new URL(form.version.value);
+        const searchParams = new URLSearchParams(spec.searchParams);
+        searchParams.set("spec", spec.href.replace(spec.search, ""));
+        searchParams.set("version", version.href);
+        window.location.search = searchParams.toString();
+      });
+
+      // prefill form
+      const { searchParams } = new URL(window.location.href);
+      const version = searchParams.get("version");
+      const spec = searchParams.get("spec");
+      if (spec) {
+        searchParams.delete("version");
+        searchParams.delete("spec");
+        form.spec.value = spec + searchParams.toString();
+      }
+      if (version) {
+        form.version.value = version;
+      }
 
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("sw.js").then(() => {
-          document.querySelector("button").disabled = false;
+          form.submitButton.disabled = false;
         });
       } else {
-        document
-          .querySelector("form")
-          .append(
-            "Error: ServiceWorker must be available for this app to work.",
-          );
+        form.append(
+          "Error: ServiceWorker must be available for this app to work.",
+        );
       }
     </script>
   </body>
