@@ -3,10 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>
-      ReSpec Preview: Preview documents using a specific ReSpec version
-    </title>
+    <title>ReSpec Preview: Preview documents using a specific ReSpec version</title>
     <style>
       * {
         box-sizing: border-box;
@@ -16,9 +13,7 @@
         padding: 1em;
         font-family: sans-serif;
       }
-      form,
-      header,
-      footer {
+      form, header, footer {
         max-width: 80ch;
         margin: 2em auto;
       }
@@ -31,8 +26,7 @@
         display: block;
         margin-bottom: 0.2em;
       }
-      input,
-      button {
+      input, button {
         padding: 1em;
         font-size: 1.3em;
       }
@@ -45,8 +39,7 @@
         color: #fff;
         border: none;
       }
-      button:hover,
-      button:focus {
+      button:hover, button:focus {
         background: #013d72;
         cursor: pointer;
       }
@@ -62,40 +55,26 @@
   </head>
   <body>
     <header>
-      <h1>
-        ReSpec Preview
-      </h1>
-      <p>
-        Preview documents using a specific ReSpec version
-      </p>
+      <h1>ReSpec Preview</h1>
+      <p>Preview documents using a specific ReSpec version</p>
     </header>
     <form action="">
       <fieldset>
         <label for="spec">Spec URL</label>
-        <input
-          type="url"
-          name="spec"
-          id="spec"
+        <input type="url" name="spec" id="spec"
           placeholder="https://w3c.github.io/payment-request/"
-          autofocus=""
-        />
+          required autofocus />
       </fieldset>
       <fieldset>
         <label for="version">ReSpec Script URL</label>
-        <input
-          type="url"
-          name="version"
-          id="version"
+        <input type="url" name="version" id="version"
           placeholder="https://unpkg.com/respec@24.23.0/builds/respec-w3c-common.js"
-          required=""
-        />
+          required />
       </fieldset>
       <button type="submit" name="submitButton">Preview</button>
       <noscript>
-        <p>
-          JavaScript is required for this app to work.
-        </p></noscript
-      >
+        <p>JavaScript is required for this app to work.</p>
+      </noscript>
     </form>
     <footer>
       <p>Made by <a href="https://github.com/sidvishnoi">Sid Vishnoi</a> | <a href="https://github.com/sidvishnoi/respec-preview">Source Code at GitHub</a></p>
