@@ -1,5 +1,5 @@
 // @ts-check
-const respecScript = "https://www.w3.org/Tools/respec/respec-w3c";
+const respecScript = /https:\/\/www\.w3\.org\/Tools\/respec\/(respec-w3c)(-common)?/;
 const respecPreviewMarker = `<a href="https://respec-preview.netlify.com/"
     style="position:fixed;right:0;bottom:0;border:none;padding:8px;margin:0;line-height:0;">
     <img src="https://img.shields.io/badge/respec--preview-orange.svg">
