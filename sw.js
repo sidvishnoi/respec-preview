@@ -7,6 +7,9 @@ const respecPreviewMarker = `<a href="https://respec-preview.netlify.com/"
 
 const sw = /** @type {ServiceWorkerGlobalScope} */ (self);
 
+/** @type {URL} */
+let spec;
+
 sw.addEventListener("install", event => {
   sw.skipWaiting();
 });
@@ -14,6 +17,10 @@ sw.addEventListener("install", event => {
 sw.addEventListener("fetch", event => {
   if (shouldMockResponse(event.request)) {
     event.respondWith(getModifiedResponse(event.request));
+  } else if (isSpecAsset(event.request) && spec) {
+    const oldURL = new URL(event.request.url);
+    const url = new URL(oldURL.pathname.replace(/^\//, ""), spec.href);
+    event.respondWith(fetch(url.href));
   }
 });
 
@@ -26,7 +33,8 @@ function shouldMockResponse(request) {
 
   if (!isNavigation) return false;
   try {
-    getParams(request);
+    const params = getParams(request.url);
+    spec = params.spec;
     return true;
   } catch (error) {
     return false;
@@ -34,13 +42,17 @@ function shouldMockResponse(request) {
 }
 
 /** @param {FetchEvent['request']} request */
+function isSpecAsset(request) {
+  return new URL(request.url).hostname === globalThis.location.hostname;
+}
+
+/** @param {FetchEvent['request']} request */
 async function getModifiedResponse(request) {
-  const { spec, version } = getParams(request);
+  const { spec, version } = getParams(request.url);
   try {
     const res = await fetch(new Request(spec.href));
     const originalHTML = await res.text();
     const modifiedHTML = originalHTML
-      .replace("<head>", `<head><base href="${spec}">`)
       .replace("</body>", `${respecPreviewMarker}</body>`)
       .replace(respecScript, version.href);
     return new Response(modifiedHTML, {
@@ -53,9 +65,9 @@ async function getModifiedResponse(request) {
   }
 }
 
-/** @param {FetchEvent['request']} request */
-function getParams(request) {
-  const url = new URL(request.url);
+/** @param {string} requestURL */
+function getParams(requestURL) {
+  const url = new URL(requestURL);
   const spec = new URL(url.searchParams.get("spec"));
   const version = new URL(url.searchParams.get("version"));
   return { spec, version };
