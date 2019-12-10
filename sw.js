@@ -48,11 +48,12 @@ function isSpecAsset(request) {
 
 /** @param {FetchEvent['request']} request */
 async function getModifiedResponse(request) {
-  const { spec, version } = getParams(request.url);
+  const { spec, version, respecConfig } = getParams(request.url);
   try {
     const res = await fetch(new Request(spec.href));
     const originalHTML = await res.text();
     const modifiedHTML = originalHTML
+      .replace("</head>", `<script>${respecConfig}</script></head>`)
       .replace("</body>", `${respecPreviewMarker}</body>`)
       .replace(respecScript, version.href);
     return new Response(modifiedHTML, {
@@ -70,5 +71,6 @@ function getParams(requestURL) {
   const url = new URL(requestURL);
   const spec = new URL(url.searchParams.get("spec"));
   const version = new URL(url.searchParams.get("version"));
-  return { spec, version };
+  const respecConfig = url.searchParams.get("respecConfig");
+  return { spec, version, respecConfig };
 }

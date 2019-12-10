@@ -26,11 +26,11 @@
         display: block;
         margin-bottom: 0.2em;
       }
-      input, button {
+      input, button, textarea {
         padding: 1em;
         font-size: 1.3em;
       }
-      input {
+      input, textarea {
         width: 100%;
         font-family: monospace;
       }
@@ -70,6 +70,10 @@
         <input type="url" name="version" id="version"
           placeholder="https://unpkg.com/respec@24.23.0/builds/respec-w3c-common.js"
           required />
+      </fieldset>
+      <fieldset>
+        <label for="respecConfig"><code>respecConfig</code> override script</label>
+        <textarea name="respecConfig" id="respecConfig" rows="5" placeholder="respecConfig.editors.push({ name: 'Sid Vishnoi' });"></textarea>
       </fieldset>
       <button type="submit" name="submitButton">Preview</button>
       <noscript>
