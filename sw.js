@@ -5,7 +5,7 @@ const respecPreviewMarker = `<a href="https://respec-preview.netlify.com/"
     <img src="https://img.shields.io/badge/respec--preview-orange.svg">
   </a>`;
 const respecPreviewMarkerAdder = `
-document.addEventListener('DOMContentLoaded', async () => {
+window.addEventListener('load', async () => {
   await document.respecIsReady;
   document.body.insertAdjacentHTML('beforeend', \`${respecPreviewMarker}\`);
 });`;
