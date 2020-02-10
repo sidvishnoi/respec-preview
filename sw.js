@@ -1,10 +1,11 @@
 // @ts-check
 const respecScript = /(?:(?:https?:)?\/\/www\.w3\.org\/Tools\/respec\/)?(?:respec-[\w-]+)(?:\.js)?/;
+
 const respecPreviewMarker = `<a href="https://respec-preview.netlify.com/"
     style="position:fixed;right:0;bottom:0;border:none;padding:8px;margin:0;line-height:0;">
     <img src="https://img.shields.io/badge/respec--preview-orange.svg">
   </a>`;
-const respecPreviewMarkerAdder = `
+const previewMarkerInjector = `
 window.addEventListener('load', async () => {
   await document.respecIsReady;
   document.body.insertAdjacentHTML('beforeend', \`${respecPreviewMarker}\`);
@@ -59,7 +60,7 @@ async function getModifiedResponse(request) {
     const originalHTML = await res.text();
     const modifiedHTML = originalHTML
       .replace("</head>", `<script>${respecConfig}</script></head>`)
-      .replace("</head>", `<script>${respecPreviewMarkerAdder}</script></head>`)
+      .replace("</head>", `<script>${previewMarkerInjector}</script></head>`)
       .replace(respecScript, version.href);
     return new Response(modifiedHTML, {
       headers: res.headers,
