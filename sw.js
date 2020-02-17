@@ -1,5 +1,5 @@
 // @ts-check
-const respecScript = /(?:(?:https?:)?\/\/www\.w3\.org\/Tools\/respec\/)?(?:respec-[\w-]+)(?:\.js)?/;
+const respecScript = /(https:)?\/\/(www\.w3\.org\/Tools\/respec|w3c\.github\.io\/respec\/builds)\/(respec-[\w-]+)(\.js)?/;
 
 const respecPreviewMarker = `<a href="https://respec-preview.netlify.com/"
     style="position:fixed;right:0;bottom:0;border:none;padding:8px;margin:0;line-height:0;">
