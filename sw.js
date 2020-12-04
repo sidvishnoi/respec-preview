@@ -7,7 +7,7 @@ const respecPreviewMarker = `<a href="https://respec-preview.netlify.com/"
   </a>`;
 const previewMarkerInjector = `
 window.addEventListener('load', async () => {
-  await document.respecIsReady;
+  await document.respec.ready;
   document.body.insertAdjacentHTML('beforeend', \`${respecPreviewMarker}\`);
 });`;
 
