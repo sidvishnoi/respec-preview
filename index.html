@@ -67,9 +67,14 @@
       </fieldset>
       <fieldset>
         <label for="version">ReSpec Script URL</label>
-        <input type="url" name="version" id="version"
-          placeholder="https://unpkg.com/respec@24.23.0/builds/respec-w3c-common.js"
+        <input type="url" name="version" id="version" list="url-hints"
+          placeholder="https://unpkg.com/respec@24.23.0/builds/respec-w3c.js"
           required />
+        <datalist id="url-hints">
+          <option value="https://www.w3.org/Tools/respec/respec-w3c">Latest</option>
+          <option value="https://unpkg.com/respec@24.23.0/builds/respec-w3c.js">v24.23.0</option>
+          <option value="https://deploy-preview-3165--respec-pr.netlify.app/respec-w3c.js">PR #3165</option>
+        </datalist>
       </fieldset>
       <fieldset>
         <label for="respecConfig"><code>respecConfig</code> override script</label>
