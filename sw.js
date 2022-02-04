@@ -62,8 +62,10 @@ async function getModifiedResponse(request) {
       .replace("</head>", `<script>${respecConfig}</script></head>`)
       .replace("</head>", `<script>${previewMarkerInjector}</script></head>`)
       .replace(respecScript, version.href);
+    const modifiedHeaders = new Headers(res.headers);
+    modifiedHeaders.set('Content-Type', 'text/html');
     return new Response(modifiedHTML, {
-      headers: res.headers,
+      headers: modifiedHeaders,
       status: res.status,
     });
   } catch (error) {
